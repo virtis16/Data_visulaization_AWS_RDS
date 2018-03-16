@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.css" rel="stylesheet" type="text/css">
+    
+    <style>
+
+        svg {
+            display: block;
+            float: left;
+            height: 350px !important;
+            width: 350px !important;
+        }
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class='with-3d-shadow with-transitions'>
+
+<svg id="svg1" class="mypiechart"></svg>
+<svg id="svg2" class="mypiechart"></svg>
+
+<script>
+var zipped_data= {{zipped_data}}
+     var x2 = {{x2|tojson}}
+     var abc ='';
+     var testdata2 = [];
+
+     for(i=0;i<zipped_data.length;i++)
+             {
+                testdata2.push({"key": x2[i], "y": zipped_data[i]});
+             }
+    
+    var height = 350;
+    var width = 350;
+
+    nv.addGraph(function() {
+        var chart = nv.models.pieChart()
+            .x(function(d) { return d.key })
+            .y(function(d) { return d.y })
+            .width(width)
+            .height(height)
+            .showTooltipPercent(true);
+
+        d3.select("#svg1")
+            .datum(testdata2)
+            .transition().duration(1200)
+            .attr('width', width)
+            .attr('height', height)
+            .call(chart);
+
+        // update chart data values randomly
+        setInterval(function() {
+            testdata2[0].y = Math.floor(Math.random() * 10);
+            testdata2[1].y = Math.floor(Math.random() * 10);
+            chart.update();
+        }, 4000);
+
+        return chart;
+    });
+
+    nv.addGraph(function() {
+        var chart = nv.models.pieChart()
+            .x(function(d) { return d.key })
+            .y(function(d) { return d.y })
+            .color(d3.scale.category20().range().slice(8))
+            .growOnHover(false)
+            .labelType('value')
+            .width(width)
+            .height(height);
+
+        // make it a half circle
+        chart.pie
+            .startAngle(function(d) { return d.startAngle/2 -Math.PI/2 })
+            .endAngle(function(d) { return d.endAngle/2 -Math.PI/2 });
+
+        // disable and enable some of the sections
+        var is_disabled = false;
+        setInterval(function() {
+            chart.dispatch.changeState({disabled: {2: !is_disabled, 4: !is_disabled}});
+            is_disabled = !is_disabled;
+        }, 3000);
+
+        return chart;
+    });
+
+</script>
+</body>
+</html>

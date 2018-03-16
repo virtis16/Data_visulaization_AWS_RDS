@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+body 
+{
+    background-color: cyan;
+}
+    <meta charset="UTF-8">
+    <title>Data Visualization Assignment 4</title>
+</style>
+</head>
+<body>
+<div class="container">
+
+    <h2>Virti Bipin Sanghavi</h2>
+    <h3>1001504428</h3>
+    <h4>Assignment 4</h4>
+
+    <label><b>Plot Bar Chart</b></label>
+    <form id="plotbarchart" action="/plotbarchart" method="POST">
+       Plot a bar chart: <input type="text" name="limit">
+        <br> Time:{{ rdstime1 }}<br>
+        <input type="submit" name="execute" value="plotbargraph" ><br><br>
+    </form>
+
+    <label><b>Plot Pie Chart</b></label>
+    <form id="plotpiechart" action="/plotpiechart" method="POST">
+    Plot a Pie chart: <input type="text" name="limit">
+    <input type="submit" name="execute" value="plotpiegraph" ><br><br>
+    </form>
+
+    <label><b>Plot Horizontal Multibar Chart</b></label>
+    <form id="plothorizontalchart" action="/plothorizontalchart" method="POST">
+    Plot a horizontal chart: <input type="text" name="limit">
+    <input type="submit" name="execute" value="plothorizontalgraph" ><br><br>
+    </form>
+
+
+    <form action="/createtablevoting" method="post" enctype="multipart/form-data">
+        Create the table States Voting Clean
+
+        <input type="submit" value="Create_States_Voting_Clean">
+
+    Time required for creation: {{crteducation}}
+    </form>
+    <label><b>Input your query here:</b></label>
+    <form id="query1form" action="/query1" method="POST">
+	     State: <input type="text" name="State">
+		 <br> CountNo:{{ answer2 }} <br>
+		 <table border="3px">
+			<td>Name Of Institution</td>
+			{% for object in answer1 %}
+				<tr><td>{{ object.INSTNM }}</td></tr>
+			{% endfor %}
+		 </table>
+         <input type="submit" name="execute" value="execute" ><br><br>
+    </form>
+
+    <!--Taking user input from the data -->
+
+    <label><b>Input your query here:</b></label>
+    <form id="query4form" action="/query4" method="POST">
+         Latitude 1: <input type="text" name="val1" value=" ">
+         Latitude 2: <input type="text" name="val2" value=" ">
+         Longitude 1 <input type="text" name="val3" value=" ">
+         Longitude 2: <input type="text" name="val4" value=" ">
+
+        <input type="submit" name="execute" value="execute" ><br><br>
+
+    </form>
+
+</div>
+</body>
+</body>
+</html>
